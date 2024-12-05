@@ -53,146 +53,30 @@ with pages[0]:
         st.markdown('사이버 보안 위협이 점점 더 복잡하고 정교해짐에 따라, 효율적이고 신뢰성 있는 침입 탐지 시스템의 필요성이 강조되고 있습니다. 이에 우리 팀은 다양한 사이버 공격 유형을 포함한 현실적인 네트워크 데이터셋을 활용하여, 실제 환경에서도 높은 정확도를 보이는 머신러닝 딥러닝 기반의 침입 탐지 모델을 구축하고자 합니다.')
         st.markdown("<h5>- 전통적 탐지기법말고 ai를 왜 활용해야할까?</h5>", unsafe_allow_html=True)
         st.info("💡실제 ai 기반 보안 산업에 **정확도**와 **유연성**을 바탕으로하는 **AI 기반 솔루션**의 채택률 증가하는 추세입니다.")
-    # 이미지 삽입
-        st.image("../results/images/개요.png", caption="AI 보안 시장 출처: 정보통신신문 (https://www.koit.co.kr/news/articleView.html?idxno=126833)")
+        # 이미지 삽입
+        st.image("../results/images/개요.png", caption="AI 보안 시장 출처: 정보통신신문 (https://www.koit.co.kr/news/articleView.html?idxno=126833)", use_container_width=True)
         st.markdown("<h4>목적 및 목표</h4>", unsafe_allow_html=True)
         st.info("✔️ 네트워크 트래픽 기반 침입 탐지 모델을 만들기")
         st.info("✔️ 정확도 99% 이상에 모델을 만들기")
 
     # 데이터셋 요약 탭
     with tabs[1]:
-        
+
         st.markdown("<h4>데이터셋</h4>", unsafe_allow_html=True)
         st.markdown("""<span style="background-color: grey; text-decoration: underline; font-weight: bold;">CIC-IDS 2017</span> : Canadian Institute for Cybersecurity에서 제공하는 데이터셋
                       \n- **데이터 저장 방식**: MySQL 데이터베이스
           \n- **데이터 규모**: 78개의 피처, 1개의 타겟 레이블, 총 225,745개의 행(Row)""", unsafe_allow_html=True)
-       
-        # st.markdown("<h4>데이터 설명 및 차용 이유</h4>", unsafe_allow_html=True)
-        # st.write("CIC(Canadian Institute for Cybersecurity)은 사이버 공격 유형을 포함한 데이터셋을 제공하여 보안 연구와 머신러닝 모델 개발에 활용되기떄문에 데이터에 신뢰도가 높습니다.")
-        # st.write("현실적인 데이터 구조 CIC 데이터셋은 현실적인 네트워크 환경에서 생성된 데이터이기 때문에, 학습 모델이 실제 네트워크 환경에서도 성능을 낼 수 있도록 돕습니다.")
-        # st.write('단일 유형의 공격만 포함된 데이터셋과는 달리, CIC 데이터셋은 여러 공격 유형을 포함하고 있어 다양한 연구와 실험이 가능합니다.')
-        
-    #     st.markdown("""
-    #     #### **피처 종류**
-    #     - **포트 및 트래픽량**
-    #     - **패킷 길이**
-    #     - **플래그 및 헤더**
-    #     - **속도 및 비율**
-    #     - **세그먼트 및 하위 플로우**
-    # """)
-        
-        import pandas as pd
-
-        # 대표 공격 데이터
-        attacks_data = {
-            "공격 유형": [
-                "DDoS", 
-                "PortScan", 
-                "Bot", 
-                "Web Attack SQL Injection", 
-                "Heartbleed"
-            ],
-            "설명": [
-                "분산 서비스 거부 공격.", 
-                "네트워크 포트를 스캔하여 취약점을 탐색하는 공격.", 
-                "악성 봇에 감염된 장치의 네트워크 활동.", 
-                "SQL 문법을 악용한 데이터베이스 공격.", 
-                "OpenSSL 취약점을 악용해 민감 정보를 유출하는 공격."
-            ]
-        }
-
-        # 주요 칼럼 데이터
-        columns_data = {
-            "칼럼명": [
-                "Flow Duration", 
-                "Total Fwd Packets, Total Backward Packets", 
-                "Flow Bytes/s, Flow Packets/s", 
-                "Flow IAT Mean, Flow IAT Std", 
-                "Fwd Packet Length Max, Fwd Packet Length Mean", 
-                "Bwd Packet Length Max, Bwd Packet Length Mean", 
-                "PSH Flags Count, URG Flags Count", 
-                "SYN Flag Count, FIN Flag Count, RST Flag Count", 
-                "Label"
-            ],
-            "설명": [
-                "흐름의 지속 시간. 공격과 정상 트래픽의 차이를 분석할 수 있는 중요한 지표.",
-                "전송 및 수신된 총 패킷 수. 예) DDoS 공격 시 패킷 수 급증.",
-                "초당 바이트 및 패킷 수. 이상 트래픽에서 값이 급격히 변할 가능성이 큼.",
-                "트래픽의 시간 간격. 공격 시 간격의 일정치 않음이 나타날 수 있음.",
-                "순방향 패킷의 최대 및 평균 길이.",
-                "역방향 패킷의 최대 및 평균 길이.",
-                "푸시(PSH)와 긴급(URG) 플래그가 설정된 패킷 수.",
-                "연결 요청 및 종료 관련 플래그. 공격 탐지에 활용 가능.",
-                "각 트래픽의 레이블(정상/공격 유형)."
-            ]
-        }
-
-        # 타겟 레이블 데이터
-        target_labels_data = {
-            "타겟 레이블": [
-                "BENIGN", 
-                "DDoS", 
-                "PortScan", 
-                "Bot", 
-                "Infiltration", 
-                "Web Attack Brute Force", 
-                "Web Attack XSS", 
-                "Web Attack SQL Injection", 
-                "FTP-Patator", 
-                "SSH-Patator", 
-                "DoS slowloris", 
-                "DoS Slowhttptest", 
-                "DoS Hulk", 
-                "DoS GoldenEye", 
-                "Heartbleed"
-            ],
-            "설명": [
-                "정상 트래픽.", 
-                "분산 서비스 거부(Distributed Denial of Service) 공격.", 
-                "네트워크 포트 스캔 공격.", 
-                "악성 봇 활동.", 
-                "네트워크 침투 및 권한 탈취.", 
-                "무차별 대입 공격.", 
-                "크로스 사이트 스크립팅.", 
-                "SQL 문법을 이용한 공격.", 
-                "FTP 서버 대상 무차별 대입 공격.", 
-                "SSH 서버 대상 무차별 대입 공격.", 
-                "HTTP 연결 점유로 서비스 장애 유발.", 
-                "HTTP 헤더 기반 DoS 공격.", 
-                "서버 부하 초래 DoS 공격.", 
-                "HTTP GET 요청 남발로 서버 마비.", 
-                "OpenSSL 취약점 악용 공격."
-            ]
-        }
-
-        # DataFrames 생성
-        attacks_df = pd.DataFrame(attacks_data)
-        columns_df = pd.DataFrame(columns_data)
-        target_labels_df = pd.DataFrame(target_labels_data)
-
-        # 출력
-        st.markdown("<h5>대표 공격</h5>", unsafe_allow_html=True)
-        st.dataframe(attacks_df)
-        st.markdown("<h5>주요 컬럼</h5>", unsafe_allow_html=True)
-        st.dataframe(columns_df)
-        st.caption("""### 💡알고 가면 좋은 정보 3가지 ###
-        1. 패킷(Packet): 네트워크를 통해 전송되는 데이터의 단위입니다. 네트워크 패킷은 보통 헤더(송수신자 정보, 프로토콜 등의 메타 데이터 포함)와 페이로드(실제 전송할 데이터)를 포함합니다.
-    2. IAT (Inter-Arrival Time): 연속적인 패킷들 사이의 도착 시간 간격입니다. IAT는 네트워크 트래픽의 패턴을 분석할 때 사용되며, 예를 들어 DDoS 공격과 같은 비정상적인 트래픽 플로우를 감지하는데 도움을 줍니다.
-    3. 길이(Length): 패킷의 크기를 의미하며, 보통 바이트 단위로 측정됩니다. 패킷의 길이는 네트워크의 부하, 전송 속도, 그리고 사용된 프로토콜에 대한 정보를 제공할 수 있습니다.""")
-        st.markdown("<h5>타겟 레이블</h5>", unsafe_allow_html=True)
-        st.dataframe(target_labels_df)
 
     # 전체 워크플로 다이어그램 탭
     with tabs[2]:
         st.markdown("<h4>단계별 프로세스</h4>", unsafe_allow_html=True)
-        st.image("../results/images/워크플로우.png")
-
+        st.image("../results/images/워크플로우.png", use_container_width=True)
 
 # 데이터 분석 및 탐색
 with pages[1]:
-    
+
     st.markdown("<h4>데이터 분석 및 탐색</h4>", unsafe_allow_html=True)
-    
+
     # 서브탭 설정
     analysis_tabs = st.tabs(["데이터 분포 및 변수별 요약 통계", "데이터 탐색", "데이터 전처리 및 준비"])
 
@@ -319,7 +203,7 @@ with pages[1]:
                 
                 if os.path.exists(col1_image):
                     with col1:
-                        st.image(col1_image, use_column_width=True)
+                        st.image(col1_image, use_container_width=True)
                 else:
                     with col1:
                         st.write(f"'{col1_image}' 파일이 존재하지 않습니다.")
@@ -327,7 +211,7 @@ with pages[1]:
                 
                 if os.path.exists(col2_image):
                     with col2:
-                        st.image(col2_image, use_column_width=True)
+                        st.image(col2_image, use_container_width=True)
                 else:
                     with col2:
                         st.write(f"'{col2_image}' 파일이 존재하지 않습니다.")
@@ -338,27 +222,27 @@ with pages[1]:
         exploration_radio = st.radio("탐색 옵션 선택", ["음수 값", "상관관계"])
         if exploration_radio == "음수 값":
             st.subheader("음수 데이터 비율")
-            st.image("../results/figures/negative_data_ratio.png")
+            st.image("../results/figures/negative_data_ratio.png", use_container_width=True)
 
             st.subheader("음수 값 상위 2개 칼럼")
-            st.image("../results/figures/negative_columns_top2.png")
+            st.image("../results/figures/negative_columns_top2.png", use_container_width=True)
 
             st.subheader("음수 값 칼럼2")
-            st.image("../results/figures/negative_columns_rest.png")
+            st.image("../results/figures/negative_columns_rest.png", use_container_width=True)
 
         elif exploration_radio == "상관관계":
             st.subheader("상관계수 절대값 기준 상위 30개")
-            st.image("../results/figures/corr.png")
+            st.image("../results/figures/corr.png", use_container_width=True)
 
             st.subheader("상관계수 0.9이상 네트워크 그래프")
-            st.image("../results/figures/corr_network.png")
+            st.image("../results/figures/corr_network.png", use_container_width=True)
 
     # 데이터 전처리 탭
     with analysis_tabs[2]:
         preprocessing_radio = st.radio("전처리 옵션 선택", ["제거된 칼럼", "제거된 데이터"])
         if preprocessing_radio == "제거된 칼럼":
             st.subheader("제거된 칼럼")
-            st.image("../results/figures/col_drop.png")
+            st.image("../results/figures/col_drop.png", use_container_width=True)
             st.markdown("#### 단 하나의 값으로만 이루어진 칼럼 제거")
             st.code(body="""
                     # 단 하나의 값으로만 이루어진 칼럼 찾기
@@ -383,7 +267,7 @@ with pages[1]:
                             grouped_columns[col_values] = [col]  # 새로운 그룹 생성
 
                     # 그룹화된 칼럼 중 2개 이상 포함된 것만 추출
-                    grouped_result = [group for group in grouped_columns.values() if len(group) > 1]
+                    grouped_result = [group for group in grouped_columns.values if len(group) > 1]
                     """, language="python")
             
             grouped_columns = [
@@ -570,4 +454,5 @@ with pages[3]:
         st.markdown("""
         - **아쉬웠던 점**: 2017년과 2018년의 데이터셋이 제공되었지만, 칼럼 구조의 차이로 인해 2018년 데이터를 검증용 데이터셋으로 활용할 수 없었습니다.
         - **배운 점**: 팀원들과 함께 작업하면서 많은 것을 배웠습니다. 예를 들어, 동일한 데이터셋을 사용했음에도 불구하고 수치 차이가 발생하는 문제를 발견하고 해결하면서 데이터의 일관성을 유지하는 방법을 학습했습니다.
-        - **협업의 중요성**: Git을 활용한 협업을 통해 팀원 간 소통과 배려의 중요성을 깨달았습니다. 서로의 작업 내용을 공유하며 프로젝트를 성공적으로 진행할 수 있었습니다.""")
+        - **협업의 중요성**: Git을 활용한 협업을 통해 팀원 간 소통과 배려의 중요성을 깨달았습니다. 서로의 작업 내용을 공유하며 프로젝트를 성공적으로 진행할 수 있었습니다.
+        """)
